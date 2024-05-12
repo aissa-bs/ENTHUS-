@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "716832531720",
+    "project_id": "enthus-9a8d5",
+    "storage_bucket": "enthus-9a8d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716832531720:android:d6a5c77e0083b422ba38bd",
+        "android_client_info": {
+          "package_name": "com.codeforany.fitness"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm2MZ0abk8VKfPxfjk1OhQZ4_rD7kQDiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
