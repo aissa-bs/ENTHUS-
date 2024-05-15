@@ -345,9 +345,13 @@ class _EditProfileviewState extends State<EditProfileview> {
                       RoundButton(  
                           title: "Done >",
                           onPressed: () async {
-                            final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('user').get();
-                            final doc = snapshot.docs.first;
-                            final id = doc.id;
+                            User? user = FirebaseAuth.instance.currentUser;          
+                           String userId = user!.uid;
+                            QuerySnapshot snapshots = await FirebaseFirestore.instance
+                          .collection('user').where('user_id', isEqualTo: userId)
+                           .get();
+                           DocumentSnapshot userDoc = snapshots.docs.first;
+                           String id = userDoc.id;
                             String firstname = '';
                             String lastname = ''; 
                             String phone = '';                
