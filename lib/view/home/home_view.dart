@@ -15,8 +15,8 @@ import 'package:fitness/view/chats/chatsview.dart';
 import 'package:fitness/view/home/navbar.dart';
 import 'package:fitness/view/meal_planner/meal_planner_view.dart';
 import 'package:fitness/view/meal_planner/meal_schedule_view.dart';
+import 'package:fitness/view/workout_tracker/create_program.dart';
 import 'package:fitness/view/workout_tracker/workout_programms.dart';
-import 'package:fitness/view/workout_tracker/workout_tracker_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
@@ -217,7 +217,7 @@ class _HomeViewState extends State<HomeView> {
                 Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const NotificationView(),
+                                builder: (context) =>  NotificationView(),
                               ),
                             );
               },
@@ -287,7 +287,7 @@ class _HomeViewState extends State<HomeView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const WorkoutTrackerView(),
+                            builder: (context) =>  ProgramCreationPage(),
                           ),
                         );
                       } else if (index == 2) {

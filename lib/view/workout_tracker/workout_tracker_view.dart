@@ -1,4 +1,6 @@
 import 'package:fitness/common/colo_extension.dart';
+import 'package:fitness/view/home/activity_tracker_view.dart';
+import 'package:fitness/view/workout_tracker/add_schedule_view.dart';
 import 'package:fitness/view/workout_tracker/workour_detail_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -272,11 +274,12 @@ class _WorkoutTrackerViewState extends State<WorkoutTrackerView> {
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             onPressed: () {
+                              // final DateTime date;
                               // Navigator.push(
                               //   context,
                               //   MaterialPageRoute(
                               //     builder: (context) =>
-                              //         const ActivityTrackerView(),
+                              //         const AddScheduleView(date: date,),
                               //   ),
                               // );
                             },
