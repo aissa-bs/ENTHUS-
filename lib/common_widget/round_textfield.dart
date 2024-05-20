@@ -20,7 +20,13 @@ class RoundTextField extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
           color: TColor.lightGray, borderRadius: BorderRadius.circular(15)),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please fill the field';
+                    }
+                    return null;
+                  },
         controller: controller,
         focusNode: focusNode,
         keyboardType: keyboardType,

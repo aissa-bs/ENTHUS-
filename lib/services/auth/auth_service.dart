@@ -22,7 +22,19 @@ class Authservice implements Authprovider {
     }) => provider.creatuser(
   email: email, password: password,
    firstname: firstname, lastname: lastname, phone: phone, );
-  
+
+  @override
+  Future<Authuser> createxpert({
+    required String email, 
+    required String password,
+    required String firstname,
+    required String lastname,
+    required String phone,
+
+    }) => provider.createxpert(
+  email: email, password: password,
+   firstname: firstname, lastname: lastname, phone: phone, );
+   
   @override
   Future completeprofile({
     required String id, 

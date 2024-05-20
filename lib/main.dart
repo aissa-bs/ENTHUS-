@@ -1,6 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitness/services/auth/auth_service.dart';
 import 'package:fitness/view/constants/routes.dart';
+import 'package:fitness/view/expert_views/main_tab_expert.dart';
+import 'package:fitness/view/home/loading_page.dart';
 import 'package:fitness/view/login/complete_profile_view.dart';
 import 'package:fitness/view/login/signup_view.dart';
 import 'package:fitness/view/login/verifyemailview.dart';
@@ -16,6 +19,36 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  Future<bool> usertype () async {
+    final user = Authservice.Firebase().currentUser ;
+            bool userExistsInUserCollection = false;
+          bool userExistsInExpertCollection = false;
+          String? id;
+
+  QuerySnapshot userSnapshots = await FirebaseFirestore.instance
+      .collection('user')
+      .where('user_id', isEqualTo: user?.id)
+      .get();
+  if (userSnapshots.docs.isNotEmpty) {
+    userExistsInUserCollection = true;
+    id = userSnapshots.docs.first.id;
+  }
+
+  // Check if user exists in 'expert' collection
+  QuerySnapshot expertSnapshots = await FirebaseFirestore.instance
+      .collection('expert')
+      .where('expert_id', isEqualTo: user?.id)
+      .get();
+  if (expertSnapshots.docs.isNotEmpty) {
+    userExistsInExpertCollection = true;
+    id = expertSnapshots.docs.first.id;
+  }
+  if(userExistsInUserCollection){
+    return true ;
+  }else {
+    return false ;
+  }
+  } 
 
   // This widget is the root of your application.
   @override
@@ -56,30 +89,74 @@ class Homepage extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-       future : Authservice.Firebase().initialize(),
-      builder: (context, snapshot){
-        switch(snapshot.connectionState){
+      future: Authservice.Firebase().initialize(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = Authservice.Firebase().currentUser;
+
+            if (user != null) {
+              if (user.isemailverified) {
+                return FutureBuilder<bool>(
+                  future: usertype(),
+                  builder: (context, usertypeSnapshot) {
+                    if (usertypeSnapshot.connectionState == ConnectionState.waiting) {
+                      return const PictureLoadingPage();
+                    }
+                    bool isUser = usertypeSnapshot.data!;
+                      if (isUser) {
+                        return const MainTabView(); // Navigate to the user-specific home page
+                      } else {
+                        return const MainTabexpertView(); // Navigate to the expert-specific home page
+                      }
+                    
           
       
-          case ConnectionState.done:
-          final user = Authservice.Firebase().currentUser ;
-          if(user != null ){
-            if(user.isemailverified){
-              return const MainTabView();
-            }else{
-            return const verifyemailview();
-          }
-
-          }else {
-            return const LoginView();
-          }
+           
+          
+    
           
          
-            default : 
-             return const CircularProgressIndicator();
+            
+                    
+                  },
+                );
+              } else {
+                return const verifyemailview();
+              }
+            } else {
+              return const LoginView();
+            }
+
+          default:
+            return const CircularProgressIndicator();
         }
-         
       },
-       );
+    );
   }
+  Future<bool> usertype() async {
+  final user = Authservice.Firebase().currentUser;
+  bool userExistsInUserCollection = false;
+
+  if (user != null) {
+    QuerySnapshot userSnapshots = await FirebaseFirestore.instance
+        .collection('user')
+        .where('user_id', isEqualTo: user.id)
+        .get();
+    if (userSnapshots.docs.isNotEmpty) {
+      userExistsInUserCollection = true;
+    }
+
+    QuerySnapshot expertSnapshots = await FirebaseFirestore.instance
+        .collection('expert')
+        .where('expert_id', isEqualTo: user.id)
+        .get();
+    if (expertSnapshots.docs.isNotEmpty) {
+      userExistsInUserCollection = false;
+    }
+  }
+
+  return userExistsInUserCollection;
 }
+}
+

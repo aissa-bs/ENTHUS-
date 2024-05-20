@@ -6,6 +6,8 @@ import 'package:fitness/services/auth/auth_exception.dart';
 import 'package:fitness/services/auth/auth_service.dart';
 import 'package:fitness/utilities/dialog/error_dialog.dart';
 import 'package:fitness/view/constants/routes.dart';
+import 'package:fitness/view/expert_views/main_tab_expert.dart';
+import 'package:fitness/view/login/complet_expert_profile.dart';
 import 'package:fitness/view/login/signup_view.dart';
 import 'package:fitness/view/main_tab/main_tab_view.dart';
 import 'package:fitness/view/on_boarding/started_view.dart';
@@ -164,6 +166,7 @@ class _LoginViewState extends State<LoginView> {
                     onPressed: () async {
           final email = _email.text;
           final password = _password.text;
+
         
          try{
       
@@ -172,15 +175,35 @@ class _LoginViewState extends State<LoginView> {
               password: password);
          
             final user = Authservice.Firebase().currentUser ;
+            bool userExistsInUserCollection = false;
+  bool userExistsInExpertCollection = false;
+  String? id;
 
-            final QuerySnapshot snapshots = await FirebaseFirestore.instance.collection('user').get();
-                            final doc = snapshots.docs.first;
-                            final id = doc.id;
+  QuerySnapshot userSnapshots = await FirebaseFirestore.instance
+      .collection('user')
+      .where('user_id', isEqualTo: user?.id)
+      .get();
+  if (userSnapshots.docs.isNotEmpty) {
+    userExistsInUserCollection = true;
+    id = userSnapshots.docs.first.id;
+  }
+
+  // Check if user exists in 'expert' collection
+  QuerySnapshot expertSnapshots = await FirebaseFirestore.instance
+      .collection('expert')
+      .where('expert_id', isEqualTo: user?.id)
+      .get();
+  if (expertSnapshots.docs.isNotEmpty) {
+    userExistsInExpertCollection = true;
+    id = expertSnapshots.docs.first.id;
+  }
+       bool newlog = false  ;
+
+            if(userExistsInUserCollection){
             DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance.collection('user').doc(id).get();
-          bool newlog = snapshot.get('newlog');
-
-            if (newlog == false) {
+           newlog = snapshot.get('newlog');
+           if (newlog == false) {
               Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -200,6 +223,36 @@ class _LoginViewState extends State<LoginView> {
                     }
 
                 }
+
+          } 
+          if(userExistsInExpertCollection){
+            DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('expert').doc(id).get();
+           newlog = snapshot.get('newlog');
+           if (newlog == false) {
+              Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>  const MainTabexpertView()));
+               } else {
+                if(user?.isemailverified ?? false){
+              Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                           builder: (context) =>  const CompleteexpertProfileView(),
+                           ),
+                         );
+
+               }else{
+                 Navigator.of(context).pushNamedAndRemoveUntil(
+                 verifyemailroute, (route) => false);
+                    }
+
+                }
+          }
+
+            
+            
             
 
       

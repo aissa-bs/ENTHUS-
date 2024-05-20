@@ -48,6 +48,45 @@ class Firebaseauthprovider implements Authprovider {
 
     
   } 
+   @override
+  Future<Authuser> createxpert({
+    required String email, 
+    required String password,
+    required String firstname,
+    required String lastname,
+    required String phone,}) async
+     {
+      try{
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email, password: password);
+          final user = currentUser ;
+          if(user != null){
+            final id = currentUser?.id ;
+            addexpertdetaills(firstname, lastname,id!, phone);
+
+            return user;
+
+          }else{
+            throw Usernotlogedinauthexception();
+          }
+      }on  FirebaseAuthException catch(e){
+         if(e.code == 'weak-password'){
+            throw Weakpasswordauthexception();
+          } else if (e.code == 'email-already-in-use'){
+            throw Emailusedauthexception();
+
+          }
+          else if (e.code == 'invalid-email'){
+            throw Invalidemailauthexception();
+
+          }else{
+            throw Genericauthexception();
+           }
+
+        }catch (_){ throw Genericauthexception(); }
+
+    
+  } 
   Future adduserdetaills(String firstname, String lastname,String id,
    String phone ) async{
     await FirebaseFirestore.instance.collection('user').add({
@@ -66,7 +105,16 @@ class Firebaseauthprovider implements Authprovider {
       'height' : height,
     });
   }
-
+  Future addexpertdetaills(String firstname, String lastname,String id,
+   String phone ) async{
+    await FirebaseFirestore.instance.collection('expert').add({
+      'firstname' : firstname ,
+      'lastname' : lastname ,
+      'phone' : phone,
+      'expert_id' : id ,
+    });
+  }
+  
   
   @override
   Future completeprofile({

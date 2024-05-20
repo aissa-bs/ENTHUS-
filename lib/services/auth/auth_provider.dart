@@ -17,6 +17,14 @@ Future<Authuser> creatuser ({
     required String phone,
 
   });
+Future<Authuser> createxpert ({
+    required String email ,
+    required String password,
+    required String firstname,
+    required String lastname,
+    required String phone,
+
+  });
   Future completeprofile({
     required String id,
     required String gender, 

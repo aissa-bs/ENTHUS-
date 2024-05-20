@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitness/common_widget/clientrow.dart';
 import 'package:fitness/common_widget/complete_diet_row.dart';
 import 'package:fitness/common_widget/round_button.dart';
+import 'package:fitness/common_widget/what_train_row.dart';
 import 'package:fitness/common_widget/what_train_row2.dart';
 import 'package:fitness/common_widget/workout_row.dart';
 import 'package:fitness/core/constants/vice_ui_consts.dart';
@@ -12,7 +14,10 @@ import 'package:fitness/features/home/presentation/screens/anotherpage.dart';
 import 'package:fitness/features/home/presentation/screens/secondpage.dart';
 import 'package:fitness/features/home/presentation/widgets/infinite_dragable_slider.dart';
 import 'package:fitness/view/chats/chatsview.dart';
+import 'package:fitness/view/home/activity_tracker_view.dart';
+import 'package:fitness/view/home/finished_workout_view.dart';
 import 'package:fitness/view/home/navbar.dart';
+import 'package:fitness/view/home/notification_view.dart';
 import 'package:fitness/view/meal_planner/meal_planner_view.dart';
 import 'package:fitness/view/meal_planner/meal_schedule_view.dart';
 import 'package:fitness/view/workout_tracker/create_program.dart';
@@ -22,22 +27,19 @@ import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import '../../common/colo_extension.dart';
-import 'activity_tracker_view.dart';
-import 'finished_workout_view.dart';
-import 'notification_view.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+class HomeexpertView extends StatefulWidget {
+  const HomeexpertView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeexpertView> createState() => _HomeexpertViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeexpertViewState extends State<HomeexpertView> {
    List whatArr = [
     {
       "image": "assets/img/what_1.png",
-      "title": "Complete your Program",
+      "title": "Create Exercices Programms",
       "exercises": "-",
       "time": "-"
     }, ] ;
@@ -56,22 +58,24 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     // Call a method to fetch user data when the widget is initialized
     fetchUserData();
+    
   }
+  
   Future<void> fetchUserData() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;          
                            String userId = user!.uid;
 
                          QuerySnapshot snapshot = await FirebaseFirestore.instance
-                          .collection('user')
-                          .where('user_id', isEqualTo: userId)
+                          .collection('expert')
+                          .where('expert_id', isEqualTo: userId)
                            .get();
                            DocumentSnapshot userDoc = snapshot.docs.first;
                            String id = userDoc.id;
                             
       // Query Firestore to get the user document
       DocumentSnapshot<Map<String, dynamic>> snapshots =
-          await FirebaseFirestore.instance.collection('user').doc(id).get(); // Replace 'user_id_here' with the actual user ID
+          await FirebaseFirestore.instance.collection('expert').doc(id).get(); // Replace 'user_id_here' with the actual user ID
 
       // Extract first name and last name from the document data
       String firstName = snapshots.get('firstname');
@@ -83,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
       });
     } catch (error) {
       // Handle errors here (e.g., show error message)
-      print('Error fetching  yy user data: $error');
+      print('Error fetching exp user data: $error');
     }
   }
   List lastWorkoutArr = [
@@ -186,12 +190,12 @@ class _HomeViewState extends State<HomeView> {
       
         backgroundColor: const Color.fromARGB(255, 242, 239, 252),
          appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 216, 213, 250),
+          backgroundColor: Color.fromARGB(255, 222, 220, 248),
           elevation: 0,
           title:Row(
       children: [
         Text(
-          "Welcome,  ",
+          "Welcome exp,  ",
           style: TextStyle(color: TColor.gray, fontSize: 12,fontWeight: FontWeight.w700,),
         ),
         Text(
@@ -325,9 +329,9 @@ class _HomeViewState extends State<HomeView> {
                         var wObj = whatArr[index] as Map? ?? {};
                         return InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  WorkoutProgramsPage() ));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProgramCreationPage() ));
                           },
-                          child:  WhatTrainRow2(wObj: wObj) );
+                          child:  WhatTrainRow(wObj: wObj) );
                       }),
                   ),
                   SizedBox(
