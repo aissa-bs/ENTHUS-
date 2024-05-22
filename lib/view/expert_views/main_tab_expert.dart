@@ -1,12 +1,11 @@
 import 'package:fitness/common/colo_extension.dart';
 import 'package:fitness/common_widget/tab_button.dart';
 import 'package:fitness/view/expert_views/clientsof_view.dart';
+import 'package:fitness/view/expert_views/expert_programs.dart';
 import 'package:fitness/view/expert_views/home_expert.dart';
 import 'package:fitness/view/main_tab/search_view.dart';
-import 'package:fitness/view/main_tab/select_view.dart';
 import 'package:flutter/material.dart';
 
-import '../photo_progress/photo_progress_view.dart';
 import '../profile/profile_view.dart';
 
 class MainTabexpertView extends StatefulWidget {
@@ -89,12 +88,12 @@ class _MainTabexpertViewState extends State<MainTabexpertView> {
 
               const  SizedBox(width: 40,),
             TabButton(
-                icon: "assets/img/camera_tab.png",
-                selectIcon: "assets/img/camera_tab_select.png",
+                icon: "assets/img/prog.png",
+                selectIcon: "assets/img/progselect.png",
                 isActive: selectTab == 2,
                 onTap: () {
                   selectTab = 2;
-                   currentTab = const PhotoProgressView();
+                   currentTab =  const ExpertProgramsPage();
                   if (mounted) {
                     setState(() {});
                   }

@@ -148,6 +148,38 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                         hitText: "Your Age",
                         icon: "assets/img/date.png",
                       ),
+                       SizedBox(
+                        height: media.width * 0.04,
+                      ),
+                      RoundTextField(
+                        
+                        hitText: "Do you have any physical disability ",
+                        icon: "assets/img/wheelchair.png",
+                      ),
+                      SizedBox(
+                        height: media.width * 0.04,
+                      ),
+                      RoundTextField(
+                        
+                        hitText: "Do you have any  Physical injury",
+                        icon: "assets/img/disability.png",
+                      ),
+                      SizedBox(
+                        height: media.width * 0.04,
+                      ),
+                      RoundTextField(
+                        
+                        hitText: "Do you have any chronic disease",
+                        icon: "assets/img/illness.png",
+                      ),
+                      SizedBox(
+                        height: media.width * 0.04,
+                      ),
+                      RoundTextField(
+                        
+                        hitText: " any Other health condition",
+                        icon: "assets/img/heartrate.png",
+                      ),
                       SizedBox(
                         height: media.width * 0.04,
                       ),

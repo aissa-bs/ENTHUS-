@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitness/common_widget/clientrow.dart';
 import 'package:fitness/common_widget/complete_diet_row.dart';
+import 'package:fitness/common_widget/createprogram_row.dart';
 import 'package:fitness/common_widget/round_button.dart';
-import 'package:fitness/common_widget/what_train_row.dart';
-import 'package:fitness/common_widget/what_train_row2.dart';
 import 'package:fitness/common_widget/workout_row.dart';
 import 'package:fitness/core/constants/vice_ui_consts.dart';
 import 'package:fitness/core/shared/domain/entities/magazine.dart';
@@ -18,10 +16,10 @@ import 'package:fitness/view/home/activity_tracker_view.dart';
 import 'package:fitness/view/home/finished_workout_view.dart';
 import 'package:fitness/view/home/navbar.dart';
 import 'package:fitness/view/home/notification_view.dart';
+import 'package:fitness/view/login/complete_profile_view.dart';
 import 'package:fitness/view/meal_planner/meal_planner_view.dart';
 import 'package:fitness/view/meal_planner/meal_schedule_view.dart';
 import 'package:fitness/view/workout_tracker/create_program.dart';
-import 'package:fitness/view/workout_tracker/workout_programms.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
@@ -221,7 +219,7 @@ class _HomeexpertViewState extends State<HomeexpertView> {
                 Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  NotificationView(),
+                                builder: (context) =>  CompleteProfileView(),
                               ),
                             );
               },
@@ -331,7 +329,7 @@ class _HomeexpertViewState extends State<HomeexpertView> {
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProgramCreationPage() ));
                           },
-                          child:  WhatTrainRow(wObj: wObj) );
+                          child:  Createprogrammrow(wObj: wObj) );
                       }),
                   ),
                   SizedBox(

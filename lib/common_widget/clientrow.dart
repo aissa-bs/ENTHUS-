@@ -1,4 +1,5 @@
 import 'package:fitness/common_widget/round_button.dart';
+import 'package:fitness/view/profile/client_profile.dart';
 import 'package:flutter/material.dart';
 
 import '../common/colo_extension.dart';
@@ -56,7 +57,14 @@ class Clientrow extends StatelessWidget {
                             type: RoundButtonType.textGradient,
                             elevation:0.05,
                             fontWeight: FontWeight.w400,
-                            onPressed: () {}),
+                            onPressed: () {
+                              Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                           builder: (context) =>  ClientProfilePage(wObj: wObj,),
+                           ),
+                         ); 
+                            }),
                       ),
                     )
                   ],
@@ -76,13 +84,13 @@ class Clientrow extends StatelessWidget {
                       borderRadius: BorderRadius.circular(40),
                     ),
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.asset(
-                      wObj["image"].toString(),
-                      width: 90,
-                      height: 90,
-                      fit: BoxFit.contain,
+                  SizedBox(
+                    width: 90,
+                    height: 90,
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage(wObj["image"].toString(),),
                     ),
                   ),
                 ],

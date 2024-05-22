@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitness/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fitness/common/colo_extension.dart';
 
@@ -16,54 +17,99 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
   String _phone = '';
   String _gender = '';
   String _email = '';
+  String _certeficat = '';
+  String _experience = '';
+  bool userExistsInUserCollection = false;
+          bool userExistsInExpertCollection = false;
    @override
   void initState() {
     fetchUserData();
     super.initState();
   }
   
-  Future<void> fetchUserData() async {
+ Future<void> fetchUserData() async {
     try {
-      User? user = FirebaseAuth.instance.currentUser;          
-                           String userId = user!.uid;
+      final user = Authservice.Firebase().currentUser ;
+            
+          String? id;
 
-                         QuerySnapshot snapshots = await FirebaseFirestore.instance
-                          .collection('user')
-                          .where('user_id', isEqualTo: userId)
-                           .get();
-                           DocumentSnapshot userDoc = snapshots.docs.first;
-                           String id = userDoc.id;
-                           String? email = user.email ;
+  QuerySnapshot userSnapshots = await FirebaseFirestore.instance
+      .collection('user')
+      .where('user_id', isEqualTo: user?.id)
+      .get();
+  if (userSnapshots.docs.isNotEmpty) {
+    userExistsInUserCollection = true;
+    id = userSnapshots.docs.first.id;
+  }
+
+  // Check if user exists in 'expert' collection
+  QuerySnapshot expertSnapshots = await FirebaseFirestore.instance
+      .collection('expert')
+      .where('expert_id', isEqualTo: user?.id)
+      .get();
+  if (expertSnapshots.docs.isNotEmpty) {
+    userExistsInExpertCollection = true;
+    id = expertSnapshots.docs.first.id;
+  }
+                        
+      
+      String? email = user?.email ;
                             
       // Query Firestore to get the user document
+      if(userExistsInUserCollection) {
       DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance.collection('user').doc(id).get(); // Replace 'user_id_here' with the actual user ID
 
       // Extract first name and last name from the document data
       String firstName = snapshot.get('firstname');
       String lastName = snapshot.get('lastname');
-      String gender = snapshot.get('gender');
-      String age = snapshot.get('age').toString();
+      String gender = snapshot.get('gender'); 
       String height = snapshot.get('height').toString();
       String weight = snapshot.get('weight').toString();
-      String phone = snapshot.get('phone').toString();
-
-      // Update state with the fetched data
-      setState(() {
+      String Phone= snapshot.get('phone');
+      String age = snapshot.get('age').toString();
+       setState(() {
         _firstName = firstName;
         _lastName = lastName;
-        _age = age ;
-        _height = height ;
-        _weight = weight ;
-        _phone = phone ;
-        _gender = gender ;
         _email = email! ;
-      });
+        _gender = gender ;
+        _phone = Phone ;
+        _height= height ;
+        _weight = weight ;
+        _age = age ;
+
+      });}
+      if(userExistsInExpertCollection) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('expert').doc(id).get(); // Replace 'user_id_here' with the actual user ID
+
+      // Extract first name and last name from the document data
+      String firstName = snapshot.get('firstname');
+      String lastName = snapshot.get('lastname');
+      String gender = snapshot.get('gender'); 
+      String Phone= snapshot.get('phone');
+      String age = snapshot.get('age');
+      String experience= snapshot.get('experience');
+      String certeficat = snapshot.get('certeficat');
+       setState(() {
+        _age = age ;
+        _phone = Phone ;
+        _firstName = firstName;
+        _lastName = lastName;
+        _email = email! ;
+        _gender = gender ;
+        _certeficat = certeficat ;
+        _experience = experience ;
+      });}
+      
+      // Update state with the fetched data
+     
     } catch (error) {
       // Handle errors here (e.g., show error message)
       print('Error fetching user data: $error');
     }
   }
+
 
 
 
@@ -113,13 +159,19 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
               color: TColor.primaryColor1,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _buildInfoItem("First Name", _firstName),
           _buildInfoItem("Last Name", _lastName),
           _buildInfoItem("Age", _age),
           _buildInfoItem("Gender", _gender),
-          _buildInfoItem("Height", _height),
+          if(userExistsInUserCollection)
+            _buildInfoItem("Height", _height),
+          if(userExistsInExpertCollection)
+           _buildInfoItem("Certeficat", _certeficat),
+           if(userExistsInUserCollection)
           _buildInfoItem("Weight", _weight),
+          if(userExistsInExpertCollection)
+          _buildInfoItem("Experience", _experience),
           _buildInfoItem("Phone Number", _phone),
           _buildInfoItem("Email", _email),
         ],

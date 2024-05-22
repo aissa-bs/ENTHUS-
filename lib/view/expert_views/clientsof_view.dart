@@ -11,24 +11,37 @@ class Clientsofview extends StatefulWidget {
 class _ClientsofviewState extends State<Clientsofview> {
   List clientsdt = [
     {
-      "image": "assets/img/ml.png",
+      "image": "assets/img/aissa.jpg",
       "firstname": "Bensadia",
       "lastname": "Aissa",
+      "height" : "176",
+      "weight" : "56",
+      "age" : "23"
     },
     {
-      "image": "assets/img/ml.png",
+      "image": "assets/img/khelifa.jpg",
       "firstname": "Khelifa",
       "lastname": "Krike",
+      "height" : "170",
+      "weight" : "55",
+      "age" : "24"
     },
     {
-      "image": "assets/img/ml.png",
+      "image": "assets/img/youcef.jpg",
       "firstname": "Koulal",
       "lastname": "Youcef",
+      "height" : "172",
+      "weight" : "55",
+      "age" : "23"
+      
     },
     {
-      "image": "assets/img/ml.png",
+      "image": "assets/img/wahab.jpg",
       "firstname": "Bouhadjeur",
-      "lastname": "Abdelouahab",
+      "lastname": "Wahab",
+      "height" : "185",
+      "weight" : "68",
+      "age" : "23"
     } ,] ;
   @override
   Widget build(BuildContext context) {

@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/enums/menu_action.dart';
 import 'package:fitness/services/auth/auth_service.dart';
 import 'package:fitness/utilities/dialog/logout_dialog.dart';
 import 'package:fitness/view/constants/routes.dart';
+import 'package:fitness/view/expert_views/expert_profile.dart';
 import 'package:fitness/view/profile/About_us.dart';
 import 'package:fitness/view/profile/contactus.dart';
-import 'package:fitness/view/profile/edit_profile.dart';
+import 'package:fitness/view/profile/my_profile_view.dart';
 import 'package:fitness/view/profile/personal_data.dart';
 import 'package:fitness/view/profile/privacypolicy.dart';
+import 'package:fitness/view/profile/setting_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/colo_extension.dart';
 import '../../common_widget/round_button.dart';
 import '../../common_widget/setting_row.dart';
-import '../../common_widget/title_subtitle_cell.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class ProfileView extends StatefulWidget {
@@ -31,6 +31,10 @@ class _ProfileViewState extends State<ProfileView> {
   String _weight = '';
   String _height = '';
   String _gender= '';
+   String _email = '';
+  bool userExistsInUserCollection = false;
+  bool userExistsInExpertCollection = false;
+   @override
 
   @override
   void initState() {
@@ -38,39 +42,66 @@ class _ProfileViewState extends State<ProfileView> {
     // Call a method to fetch user data when the widget is initialized
     fetchUserData();
   }
-  Future<void> fetchUserData() async {
+   Future<void> fetchUserData() async {
     try {
-      User? user = FirebaseAuth.instance.currentUser;          
-                           String userId = user!.uid;
+      final user = Authservice.Firebase().currentUser ;
+            
+          String? id;
 
-                         QuerySnapshot snapshot = await FirebaseFirestore.instance
-                          .collection('user')
-                          .where('user_id', isEqualTo: userId)
-                           .get();
-                           DocumentSnapshot userDoc = snapshot.docs.first;
-                           String id = userDoc.id;
+  QuerySnapshot userSnapshots = await FirebaseFirestore.instance
+      .collection('user')
+      .where('user_id', isEqualTo: user?.id)
+      .get();
+  if (userSnapshots.docs.isNotEmpty) {
+    userExistsInUserCollection = true;
+    id = userSnapshots.docs.first.id;
+  }
+
+  // Check if user exists in 'expert' collection
+  QuerySnapshot expertSnapshots = await FirebaseFirestore.instance
+      .collection('expert')
+      .where('expert_id', isEqualTo: user?.id)
+      .get();
+  if (expertSnapshots.docs.isNotEmpty) {
+    userExistsInExpertCollection = true;
+    id = expertSnapshots.docs.first.id;
+  }
+                        
+      
+      String? email = user?.email ;
                             
       // Query Firestore to get the user document
-      DocumentSnapshot<Map<String, dynamic>> snapshots =
+      if(userExistsInUserCollection) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance.collection('user').doc(id).get(); // Replace 'user_id_here' with the actual user ID
 
       // Extract first name and last name from the document data
-      String firstName = snapshots.get('firstname');
-      String lastName = snapshots.get('lastname');
-      String age = snapshots.get('age').toString();
-      String height = snapshots.get('height').toString();
-      String weight = snapshots.get('weight').toString();
-      String gender = snapshots.get('gender');
-
-      // Update state with the fetched data
-      setState(() {
+      String firstName = snapshot.get('firstname');
+      String lastName = snapshot.get('lastname');
+      String gender = snapshot.get('gender'); 
+       setState(() {
         _firstName = firstName;
         _lastName = lastName;
-        _age = age ;
-        _height = height ;
-        _weight = weight ;
+        _email = email! ;
         _gender = gender ;
-      });
+      });}
+      if(userExistsInExpertCollection) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('expert').doc(id).get(); // Replace 'user_id_here' with the actual user ID
+
+      // Extract first name and last name from the document data
+      String firstName = snapshot.get('firstname');
+      String lastName = snapshot.get('lastname');
+      String gender = snapshot.get('gender'); 
+       setState(() {
+        _firstName = firstName;
+        _lastName = lastName;
+        _email = email! ;
+        _gender = gender ;
+      });}
+      
+      // Update state with the fetched data
+     
     } catch (error) {
       // Handle errors here (e.g., show error message)
       print('Error fetching user data: $error');
@@ -191,7 +222,7 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                         ),
                         Text(
-                          "gain  Program",
+                          "***",
                           style: TextStyle(
                             color: TColor.gray,
                             fontSize: 12,
@@ -201,56 +232,37 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
                   SizedBox(
-                    width: 70,
-                    height: 25,
+                    width: 120,
+                    height: 35,
                     child: RoundButton(
-                      title: "Edit",
+                      title: "View Profile",
                       type: RoundButtonType.bgGradient,
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.w400,
                       onPressed: () {
+                        if(userExistsInUserCollection){
                          Navigator.push(
                            context,
                            MaterialPageRoute(
-                           builder: (context) => const EditProfileview(),
+                           builder: (context) =>  ProfilePage(),
                            ),
-                         );
+                         ); 
+                         }else{
+                          Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                           builder: (context) =>  ExpertProfilePage(),
+                           ),
+                         ); 
+
+                         }
                       },
                     ),
                   )
                 ],
               ),
-              const SizedBox(
-                height: 15,
-              ),
-               Row(
-                children: [
-                  Expanded(
-                    child: TitleSubtitleCell(
-                      title: _height,
-                      subtitle: "Height",
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                   Expanded(
-                    child: TitleSubtitleCell(
-                      title: _weight,
-                      subtitle: "Weight",
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TitleSubtitleCell(
-                      title: _age,
-                      subtitle: "Age",
-                    ),
-                  ),
-                ],
-              ),
+              
+               
               const SizedBox(
                 height: 25,
               ),
@@ -479,6 +491,12 @@ class _ProfileViewState extends State<ProfileView> {
            
                            break;
                            case "7":
+                           Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                           builder: (context) =>  SettingsPage(),
+                           ),
+                         );
             // Handle the action for tag 7
                            break;
                            case "8":

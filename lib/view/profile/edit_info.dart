@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import '../../common_widget/round_button.dart';
 import '../../common_widget/round_textfield.dart';
 
-class Editprofileview extends StatefulWidget {
-  const Editprofileview({super.key});
+class Editinfoview extends StatefulWidget {
+  const Editinfoview({super.key});
 
   @override
-  State<Editprofileview> createState() => _EditprofileviewState();
+  State<Editinfoview> createState() => _EditinfoviewState();
 }
 
-class _EditprofileviewState extends State<Editprofileview> {
+class _EditinfoviewState extends State<Editinfoview> {
   String _firstName1 = ''; 
   String _lastName1 = '';
   String _age1 = '';
@@ -154,7 +154,7 @@ class _EditprofileviewState extends State<Editprofileview> {
                   height: media.width * 0.05,
                 ),
                 Text(
-                  "Edit Your Profile Here",
+                  "Edit Your Informations Here",
                   style: TextStyle(
                       color: TColor.black,
                       fontSize: 20,
@@ -191,23 +191,79 @@ class _EditprofileviewState extends State<Editprofileview> {
                 SizedBox(
                   height: media.width * 0.04,
                 ),
-                SizedBox(
-                  height: 80,
-                  child: RoundTextField(
-                    controller: _lastname,
-                    hitText: "Bio : ",
-                    icon: "assets/img/bio.png",
-                  ),
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
                  RoundTextField(
                   controller: _phone,
                   hitText: "Your phone : $_phone1",
                   icon: "assets/img/phone.png",
                 ),
-             
+                SizedBox(
+                  height: media.width * 0.04,
+                ),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: TColor.lightGray,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Row(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  width: 50,
+                                  height: 50,
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  
+                                  child: Image.asset(
+                                    "assets/img/gender.png",
+                                    width: 20,
+                                    height: 20,
+                                    fit: BoxFit.contain,
+                                    color: TColor.gray,
+                                  )),
+                            
+                              Expanded(
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                     
+                                    items: ["Male", "Female"]
+                                        .map((name) => DropdownMenuItem(
+                                              value: name,
+                                              child: Text(
+                                                name,
+                                                style: TextStyle(
+                                                    color: TColor.gray,
+                                                    fontSize: 14),
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                      _gender.text = value.toString();
+                                      
+
+                                                });
+                                    },
+                                    isExpanded: true,
+                                    
+                                    hint: _gender.text.isEmpty
+                                       ? Text(
+                                      "Your Gender : $_gender1",
+                                      style: TextStyle(
+                                      color: TColor.gray,
+                                        fontSize: 12),
+                                        )
+                                        : Text(
+                                          _gender.text,
+                                       style: TextStyle(
+                                       color: TColor.gray,
+                                       fontSize: 12),
+                                       ),
+                                  ),
+                                ),
+                              ),
+
+                             const SizedBox(width: 8,)
+
+                            ],
+                          ),),
                       SizedBox(
                         height: media.width * 0.04,
                       ),
