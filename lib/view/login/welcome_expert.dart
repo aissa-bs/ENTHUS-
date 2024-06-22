@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitness/view/expert_views/main_tab_expert.dart';
+import 'package:fitness/view/expert_views/sportexpert/main_tab_sportexpert.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/colo_extension.dart';
@@ -104,10 +104,11 @@ class _WelcomeexpertViewState extends State<WelcomeexpertView> {
                                                     });
 
 
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MainTabexpertView()));
+                            builder: (context) => const MainTabsportexpertView()));
                   }),
                
             ],

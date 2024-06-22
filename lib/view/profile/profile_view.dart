@@ -129,6 +129,7 @@ class _ProfileViewState extends State<ProfileView> {
     {"image": "assets/img/p_privacy.png", "name": "Privacy Policy", "tag": "6"},
     {"image": "assets/img/p_setting.png", "name": "Setting", "tag": "7"},
      {"image": "assets/img/about.png", "name": "About Us", "tag": "8"},
+     {"image": "assets/img/exit.png", "name": "Log Out", "tag": "9"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -469,7 +470,7 @@ class _ProfileViewState extends State<ProfileView> {
                         return SettingRow(
                           icon: iObj["image"].toString(),
                           title: iObj["name"].toString(),
-                          onPressed: () {
+                          onPressed: () async {
                             switch (iObj["tag"]) {
                           case "5":
                           Navigator.push(
@@ -506,6 +507,19 @@ class _ProfileViewState extends State<ProfileView> {
                            builder: (context) =>  AboutPage(),
                            ),
                          );
+                           break;
+                           case "9":
+                          final shouldlogout = await showlogoutdialog(context);
+            
+            if(shouldlogout){
+              await Authservice.Firebase().logout();
+              
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                loginroute,
+                (_) => false,
+               );
+
+               }
                            break;
          
                                 }

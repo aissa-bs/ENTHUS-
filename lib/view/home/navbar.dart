@@ -9,6 +9,7 @@ import 'package:fitness/view/profile/contactus.dart';
 import 'package:fitness/view/profile/my_profile_view.dart';
 import 'package:fitness/view/profile/personal_data.dart';
 import 'package:fitness/view/profile/privacypolicy.dart';
+import 'package:fitness/view/profile/setting_page.dart';
 import 'package:flutter/material.dart';
 
 class NavBar extends StatefulWidget {
@@ -166,6 +167,12 @@ class _NavBarState extends State<NavBar> {
           leading: const Icon(Icons.settings),
           title: const Text('Settings '),
           onTap: () {
+            Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                           builder: (context) =>  SettingsPage(),
+                           ),
+                         );
             
           }         
          ),

@@ -94,6 +94,7 @@ class Firebaseauthprovider implements Authprovider {
       'lastname' : lastname ,
       'phone' : phone,
       'user_id' : id ,
+      'newlog' : true ,
     });
   }
 
@@ -112,6 +113,7 @@ class Firebaseauthprovider implements Authprovider {
       'lastname' : lastname ,
       'phone' : phone,
       'expert_id' : id ,
+      'newlog' : true ,
     });
   }
   

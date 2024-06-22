@@ -1,7 +1,5 @@
 import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
-
 import '../../common/colo_extension.dart';
 import '../../common_widget/meal_food_schedule_row.dart';
 import '../../common_widget/nutritions_row.dart';
@@ -17,6 +15,7 @@ class _MealScheduleViewState extends State<MealScheduleView> {
   CalendarAgendaController _calendarAgendaControllerAppBar =
       CalendarAgendaController();
 
+  // ignore: unused_field
   late DateTime _selectedDateAppBBar;
 
   List breakfastArr = [

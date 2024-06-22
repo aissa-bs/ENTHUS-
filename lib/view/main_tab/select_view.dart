@@ -1,4 +1,5 @@
 import 'package:fitness/common_widget/round_button.dart';
+import 'package:fitness/view/ai_expert/iae_welcome.dart';
 import 'package:fitness/view/meal_planner/meal_planner_view.dart';
 import 'package:fitness/view/workout_tracker/workout_tracker_view.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,19 @@ class SelectView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            
+
+                  RoundButton(
+                title: "Nito (IA EXPERT)",
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Iawelcome(),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 15,),
             RoundButton(
                 title: "Workout Tracker",
                 onPressed: () {

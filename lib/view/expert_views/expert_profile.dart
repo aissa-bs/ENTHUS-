@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitness/services/auth/auth_service.dart';
 import 'package:fitness/view/profile/edit_profile.dart';
 import 'package:fitness/view/profile/personal_data.dart';

@@ -16,19 +16,19 @@ class _PhotoProgressViewState extends State<PhotoProgressView> {
     {
       "time": "2 June",
       "photo": [
-        "assets/img/pp_1.png",
-        "assets/img/pp_2.png",
-        "assets/img/pp_3.png",
-        "assets/img/pp_4.png",
+        "assets/img/pp_1.jpg",
+        "assets/img/pp_2.jpg",
+        "assets/img/pp_3.jpg",
+        "assets/img/pp_4.jpg",
       ]
     },
     {
       "time": "5 May",
       "photo": [
-        "assets/img/pp_5.png",
-        "assets/img/pp_6.png",
-        "assets/img/pp_7.png",
-        "assets/img/pp_8.png",
+        "assets/img/pp_5.jpg",
+        "assets/img/pp_6.jpg",
+        "assets/img/pp_7.jpg",
+        "assets/img/pp_8.jpg",
       ]
     }
   ];

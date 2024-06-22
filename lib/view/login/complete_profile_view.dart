@@ -20,6 +20,8 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
   late final TextEditingController _age ;
   late final TextEditingController _weight ;
   late final TextEditingController _height ;
+  late final TextEditingController _disability ;
+  late final TextEditingController _injury ;
 
   @override
   void initState() {
@@ -27,6 +29,8 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
     _age = TextEditingController();
     _weight = TextEditingController();
     _height = TextEditingController();
+    _disability = TextEditingController();
+    _injury = TextEditingController();
     super.initState();
   }
   @override
@@ -35,6 +39,8 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
     _age.dispose();
     _weight.dispose();
     _height.dispose();
+    _disability.dispose() ;
+    _injury.dispose();
     super.dispose();
   }
 
@@ -151,23 +157,161 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                        SizedBox(
                         height: media.width * 0.04,
                       ),
-                      RoundTextField(
+                      Container(
+                          decoration: BoxDecoration(
+                              color: TColor.lightGray,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Row(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  width: 50,
+                                  height: 50,
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  
+                                  child: Image.asset(
+                                    "assets/img/wheelchair.png",
+                                    width: 20,
+                                    height: 20,
+                                    fit: BoxFit.contain,
+                                    color: TColor.gray,
+                                  )),
+                            
+                              Expanded(
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                     
+                                    items: ["Yes", "No"]
+                                        .map((name) => DropdownMenuItem(
+                                              value: name,
+                                              child: Text(
+                                                name,
+                                                style: TextStyle(
+                                                    color: TColor.gray,
+                                                    fontSize: 14),
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                      _disability.text = value.toString();
+                                      
+
+                                                });
+                                    },
+                                    isExpanded: true,
+                                    
+                                    hint: _disability.text.isEmpty
+                                       ? Text(
+                                      "Do you have any physical disability",
+                                      style: TextStyle(
+                                      color: TColor.gray,
+                                        fontSize: 12),
+                                        )
+                                        : Text(
+                                          _disability.text,
+                                       style: TextStyle(
+                                       color: TColor.gray,
+                                       fontSize: 12),
+                                       ),
+                                  ),
+                                ),
+                              ),
+
+                             const SizedBox(width: 8,)
+
+                            ],
+                          ),),
+                          SizedBox(
+                        height: media.width * 0.04,
+                      ),
+                          if(_disability.text == 'Yes')
+                      const RoundTextField(
                         
-                        hitText: "Do you have any physical disability ",
+                        hitText: "EXplain Your condition ",
                         icon: "assets/img/wheelchair.png",
                       ),
                       SizedBox(
                         height: media.width * 0.04,
                       ),
-                      RoundTextField(
+                      Container(
+                          decoration: BoxDecoration(
+                              color: TColor.lightGray,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Row(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  width: 50,
+                                  height: 50,
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                                  
+                                  child: Image.asset(
+                                    "assets/img/disability.png",
+                                    width: 20,
+                                    height: 20,
+                                    fit: BoxFit.contain,
+                                    color: TColor.gray,
+                                  )),
+                            
+                              Expanded(
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                     
+                                    items: ["Yes", "No"]
+                                        .map((name) => DropdownMenuItem(
+                                              value: name,
+                                              child: Text(
+                                                name,
+                                                style: TextStyle(
+                                                    color: TColor.gray,
+                                                    fontSize: 14),
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                      _injury.text = value.toString();
+                                      
+
+                                                });
+                                    },
+                                    isExpanded: true,
+                                    
+                                    hint: _injury.text.isEmpty
+                                       ? Text(
+                                      "Do you have any  Physical injury",
+                                      style: TextStyle(
+                                      color: TColor.gray,
+                                        fontSize: 12),
+                                        )
+                                        : Text(
+                                          _injury.text,
+                                       style: TextStyle(
+                                       color: TColor.gray,
+                                       fontSize: 12),
+                                       ),
+                                  ),
+                                ),
+                              ),
+
+                             const SizedBox(width: 8,)
+
+                            ],
+                          ),),
+                      SizedBox(
+                        height: media.width * 0.04,
+                      ),
+                      if(_injury.text == 'Yes')
+                      const RoundTextField(
                         
-                        hitText: "Do you have any  Physical injury",
+                        hitText: "Explain your injury",
                         icon: "assets/img/disability.png",
                       ),
                       SizedBox(
                         height: media.width * 0.04,
                       ),
-                      RoundTextField(
+                      const RoundTextField(
                         
                         hitText: "Do you have any chronic disease",
                         icon: "assets/img/illness.png",
@@ -175,7 +319,7 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                       SizedBox(
                         height: media.width * 0.04,
                       ),
-                      RoundTextField(
+                      const RoundTextField(
                         
                         hitText: " any Other health condition",
                         icon: "assets/img/heartrate.png",

@@ -6,8 +6,10 @@ import 'package:fitness/services/auth/auth_exception.dart';
 import 'package:fitness/services/auth/auth_service.dart';
 import 'package:fitness/utilities/dialog/error_dialog.dart';
 import 'package:fitness/view/constants/routes.dart';
-import 'package:fitness/view/expert_views/main_tab_expert.dart';
+import 'package:fitness/view/expert_views/nutritionexpert/main_tab_nuexpert.dart';
+import 'package:fitness/view/expert_views/sportexpert/main_tab_sportexpert.dart';
 import 'package:fitness/view/login/complet_expert_profile.dart';
+import 'package:fitness/view/login/complete_profile_view.dart';
 import 'package:fitness/view/login/signup_view.dart';
 import 'package:fitness/view/main_tab/main_tab_view.dart';
 import 'package:fitness/view/on_boarding/started_view.dart';
@@ -198,6 +200,7 @@ class _LoginViewState extends State<LoginView> {
     id = expertSnapshots.docs.first.id;
   }
        bool newlog = false  ;
+       String type ;
 
             if(userExistsInUserCollection){
             DocumentSnapshot<Map<String, dynamic>> snapshot =
@@ -213,7 +216,7 @@ class _LoginViewState extends State<LoginView> {
               Navigator.push(
                            context,
                            MaterialPageRoute(
-                           builder: (context) => const StartedView(),
+                           builder: (context) => const CompleteProfileView(),
                            ),
                          );
 
@@ -229,11 +232,22 @@ class _LoginViewState extends State<LoginView> {
             DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance.collection('expert').doc(id).get();
            newlog = snapshot.get('newlog');
+           
            if (newlog == false) {
+            type = snapshot.get('type');
+            print('\x1B[31mHello,$type\x1B[0m');
+            if(type == 'Sport Trainer'){
+               Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>  const MainTabsportexpertView()));
+            }else{
               Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>  const MainTabexpertView()));
+                            builder: (context) =>  const MainTabnuexpertView()));
+            }
+             
                } else {
                 if(user?.isemailverified ?? false){
               Navigator.push(

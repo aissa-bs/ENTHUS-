@@ -261,7 +261,8 @@ class _SignUpViewState extends State<SignUpView> {
                     showerrordialog(context, "please select sign as option");
 
                   }else{
-                    if(signas == 'user') {
+                    if(signas == 'User') {
+                      print('\x1B[31m$signas\x1B[0m');
                   try{ await Authservice.Firebase().creatuser(
                     email: email,
                      password: password, 

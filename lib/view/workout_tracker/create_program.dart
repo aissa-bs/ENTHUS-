@@ -683,8 +683,4 @@ class _NumberPickerState extends State<NumberPicker> {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: ProgramCreationPage(),
-  ));
-}
+

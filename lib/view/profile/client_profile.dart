@@ -1,7 +1,6 @@
 import 'package:fitness/common/colo_extension.dart';
 import 'package:fitness/common_widget/round_button.dart';
 import 'package:fitness/common_widget/title_subtitle_cell.dart';
-import 'package:fitness/view/profile/edit_profile.dart';
 import 'package:fitness/view/profile/personal_data.dart';
 import 'package:flutter/material.dart';
 

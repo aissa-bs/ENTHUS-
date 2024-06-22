@@ -45,7 +45,6 @@ class _ClientsofviewState extends State<Clientsofview> {
     } ,] ;
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return  Scaffold(
       appBar: AppBar(
         title: const Text('My Clients '),

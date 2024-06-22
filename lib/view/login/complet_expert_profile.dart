@@ -278,14 +278,17 @@ class _CompleteexpertProfileViewState extends State<CompleteexpertProfileView> {
                             final age = _age.text;                            
                             final certeficat = _certeficat.text;                            
                             final experience = _experience.text ;
+                            final spec = _spec.text ;
                             
                             print('\x1B[31mHello,$gender\x1B[0m');
                             final userDocRef = FirebaseFirestore.instance.collection('expert').doc(id);
                             await userDocRef.update({
+                              'type' : spec ,
                              'gender': gender,
                             'age': age,
                             'certeficat': certeficat,
                             'experience': experience,
+                            'newlog' : false,
     });
                             Navigator.push(
                                 context,
